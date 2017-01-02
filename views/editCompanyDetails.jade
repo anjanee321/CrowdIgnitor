@@ -1,0 +1,81 @@
+doctype html
+html(lang='en')
+  head
+    script(type="text/javascript" src='js/jquery-3.1.1.min.js')
+    script(type="text/javascript" src='js/date.js')
+    script(type="text/javascript").
+      $(document).ready(function(){
+          $("#editDataForm").css('display','none');
+          $.getJSON('/editCompanyData/getCompanyId',function(companyId) {
+             $("#selectCompanyId").append($.map(companyId, function(o) {
+                return $('<option/>', {
+                value: o.companyId,
+                text: o.companyId
+                });
+            }));
+         });
+         $("#selectCompanyId").change(function() {
+             if(this.value=="Select a company Id"){
+                $("#editDataForm").css('display','none');
+             }else{
+                $("#editDataForm").css('display','block');
+                var url= '/editCompanyData/getCompanyData?companyId='+this.value;
+                $.getJSON(url,function(companyData){
+                    $(companyData).each(function(i,val){
+                       $.each(val,function(k,v){
+                         if(k=="foundingDate"){
+                          v= new Date(v.split('T')[0]).toISOString().substring(0, 10);
+                         }
+                         $('[name="'+k+'"]').val(v);
+                     });
+                 });
+                 
+               });
+             }
+         });
+         $(".form-control").click(function() {
+            $("#updateButton").removeAttr("disabled");
+         });
+      });
+  body
+    h2 Please select the company Id which you want to change?
+    |    companyId :
+    select#selectCompanyId
+      option(selected='selected') Select a company Id
+     <br><br>
+    form#editDataForm(method='POST' action='/editcompanyData/updateCompanyData')
+          div.form-group
+            input#number.form-control(type='hidden', placeholder='Company Id' name='companyId')
+          div.form-group
+            label(for='companyHeading') Company Heading:
+            input#name.form-control(type='text', size='50' placeholder='Company Heading' name='companyHeading' required)
+          <br>
+          div.form-group
+            label(for='companyName') Company Name:
+            input#name.form-control(type='text', size='30' placeholder='Company Name' name='companyName' required)
+          <br>
+          div.form-group
+            label(for='endorsement') Endorsement:
+            input#number.form-control(type='number', placeholder='Endorsement' name='endorsement' required)
+          <br>
+          div.form-group
+            label(for='likes') Likes:
+            input#number.form-control(type='number', placeholder='Likes' name='likes' required)
+          <br>
+          div.form-group
+            label(for='videoUrl') Video Url:
+            input#name.form-control(type='text', size='50',placeholder='Video Url' name='videoUrl' required)
+          <br> 
+          div.form-group
+            label(for='funding') Funding:    
+            input#number.form-control(type='text', placeholder='Funding' name='funding' required)
+          <br>
+          div.form-group
+            label(for='foundingDate') Founding Date:
+            input#date.form-control(type='date', placeholder='Founding Date' name='foundingDate' required)
+          <br>
+          div.form-group
+            label(for='details') Details:
+            <textarea name="details" cols="80" rows="8" style='vertical-align:middle' size='30' class="form-control" maxlength='160'></textarea>
+          <br>
+          button.btn.btn-primary#updateButton(type='submit' align="center" style="left-margin: 50%;" disabled) Update

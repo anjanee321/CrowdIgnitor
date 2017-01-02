@@ -1,0 +1,45 @@
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Enter The Company Details
+
+        // register form
+        form(method='POST' action='/setCompanyData')
+          div.form-group
+            label(for='companyId') Company Id:
+            input#number.form-control(type='number', size='6' placeholder='Company Id' name='companyId' required)
+          <br>
+          div.form-group
+            label(for='companyHeading') Company Heading:
+            input#name.form-control(type='text', size='50' placeholder='Company Heading' name='companyHeading' required)
+          <br>
+          div.form-group
+            label(for='companyName') Company Name:
+            input#name.form-control(type='text', size='30' placeholder='Company Name' name='companyName' required)
+          <br>
+          div.form-group
+            label(for='endorsement') Endorsement:
+            input#number.form-control(type='number', placeholder='Endorsement' name='endorsement' required)
+          <br>
+          div.form-group
+            label(for='likes') Likes:
+            input#number.form-control(type='number', placeholder='Likes' name='likes' required)
+          <br>
+          div.form-group
+            label(for='videoUrl') Video Url:
+            input#name.form-control(type='text', size='50', placeholder='Video Url' name='videoUrl' required)
+          <br> 
+          div.form-group
+            label(for='funding') Funding:    
+            input#number.form-control(type='number', placeholder='Funding' name='funding' required)
+          <br>
+          div.form-group
+            label(for='foundingDate') Founding Date:
+            input#date.form-control(type='date', placeholder='Founding Date' name='foundingDate' required)
+          <br>
+          div.form-group
+            label(for='details') Details:
+            <textarea name="details" cols="80" rows="8" style='vertical-align:middle' size='30' maxlength='160'></textarea>
+          <br>
+          button.btn.btn-primary(type='submit') Save
